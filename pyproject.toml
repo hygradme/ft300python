@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ft300python"
+version = "1.0.2"
+description = "Python module to get sensor values from Robotiq FT300"
+readme = "README.md"
+authors = [{ name = "hygradme", email = "hygradme@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+
+dependencies = [
+    "pyserial",
+    "pymodbus",
+]
+requires-python = ">=3.6"
+
+[project.urls]
+Homepage = "https://github.com/hygradme/ft300python"
+
