@@ -7,6 +7,8 @@ See an official manual for details of FT300:
 
 https://assets.robotiq.com/website-assets/support_documents/document/FT_Sensor_Instruction_Manual_PDF_20181218.pdf
 
+Tested on Windows 10, Ubuntu 20.04
+
 ## Installation
 ```
 pip install ft300python
@@ -24,7 +26,7 @@ See test_ft300_modbusrtu.py and test_ft300_stream.py in examples/
 from ft300python.ft300_modbusrtu import FT300ModbusRTU
 
 
-port = "COM3"
+port = "COM3"  # "/dev/ttyUSB0" for example in Ubuntu
 ft_modbusrtu = FT300ModbusRTU(port, timeout=1, zero_reset=False)
 
 print("production year", ft_modbusrtu.get_production_year())
@@ -42,7 +44,7 @@ print("force torque", ft_modbusrtu.get_force_torque())
 from ft300python.ft300_stream import FT300Stream
 
 
-port = "COM3"
+port = "COM3"  # "/dev/ttyUSB0" for example in Ubuntu
 ft_stream = FT300Stream(port, timeout=1, zero_reset=True)
 
 while True:
