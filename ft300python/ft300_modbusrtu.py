@@ -8,7 +8,15 @@ def uint_to_int(register):
 
 class FT300ModbusRTU:
     def __init__(self, port, timeout, zero_reset=True):
-        self.client = ModbusClient(method = "rtu", port=port, stopbits = 1, bytesize = 8, parity = "N", baudrate= 19200, timeout= 1)
+        self.client = ModbusClient(
+            method="rtu",
+            port=port,
+            stopbits=1,
+            bytesize=8,
+            parity="N",
+            baudrate=19200,
+            timeout=1
+            )
         self.client.connect()
         self.register_dict = {
             "ProductionYear": 514,
@@ -37,8 +45,10 @@ class FT300ModbusRTU:
         self.client.close()
 
     def get_force_torque_raw(self):
-        result= self.client.read_holding_registers(address=self.register_dict["F_x"], count=6, unit=9)
-        force_torque = [uint_to_int(ft) / coef for ft, coef in zip(result.registers, self.value_coef_list)]
+        result = self.client.read_holding_registers(
+            address=self.register_dict["F_x"], count=6, unit=9)
+        force_torque = [uint_to_int(ft) / coef for ft, coef
+                        in zip(result.registers, self.value_coef_list)]
         return force_torque
 
     def reset_zero_force_torque(self):
@@ -47,20 +57,25 @@ class FT300ModbusRTU:
 
     def get_force_torque(self):
         """get force and torque value based on zero reset ft"""
-        return [ft - ft_zero for ft, ft_zero in zip(self.get_force_torque_raw(), self.zero_force_torque)]
+        return [ft - ft_zero for ft, ft_zero
+                in zip(self.get_force_torque_raw(), self.zero_force_torque)]
 
     def get_acceralation(self):
         """get acceleration values"""
-        result =  self.client.read_holding_registers(address=self.register_dict["acc_x"], count=3, unit=9)
-        acc_list = [uint_to_int(acc) /coef for acc, coef in zip(result.registers, self.acc_coef_list)]
+        result = self.client.read_holding_registers(
+            address=self.register_dict["acc_x"], count=3, unit=9)
+        acc_list = [uint_to_int(acc) / coef for acc, coef
+                    in zip(result.registers, self.acc_coef_list)]
         return acc_list
 
     def get_production_year(self):
-        result = self.client.read_holding_registers(address=self.register_dict["ProductionYear"], count=1, unit=9)
+        result = self.client.read_holding_registers(
+            address=self.register_dict["ProductionYear"], count=1, unit=9)
         return result.registers[0]
 
     def get_serial_number(self):
-        result = self.client.read_holding_registers(address=self.register_dict["SerialNumber0"], count=4, unit=9)
+        result = self.client.read_holding_registers(
+            address=self.register_dict["SerialNumber0"], count=4, unit=9)
         return result.registers
 
     def disconnect(self):
